@@ -18,7 +18,7 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type UnionToIntersection<U> = any
+type UnionToIntersection<U> = (U extends any ? (arg: U) => void : never) extends (arg: infer A) => void ? A : never;
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
