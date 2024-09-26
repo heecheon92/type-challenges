@@ -18,7 +18,20 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type Includes<T extends readonly any[], U> = any
+/**
+ * Equal type 없이 작성은 힘든듯.... WA
+ */
+type __Includes<T extends readonly any[], U> = T extends (infer E)[] ? U extends E ? true : false : false
+
+/**
+ * - https://github.com/type-challenges/type-challenges/issues/1568#issuecomment-1072144996
+ * 1. 배열에서 첫번째 항목의 타입과 U의 타입을 비교.
+ * 2. 나머지 배열을 재귀적으로 Includes 타입으로 비교.
+ */
+type Includes<T extends readonly unknown[], U> =
+  T extends [infer First, ...infer Rest]
+    ? Equal<First, U> extends true ? true : Includes<Rest, U>
+    : false
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
