@@ -29,7 +29,16 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type MyReadonly<T> = any
+type MyReadonly<T extends object> = {
+  readonly [K in keyof T]: T[K]
+} 
+
+type MyReadonly2<T extends object> = {
+  readonly [K in keyof T]: T[K] extends object ? MyReadonly2<T[K]> : T[K];
+}
+
+type Test = MyReadonly<Todo1>
+type Test2 = MyReadonly2<Todo1>
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
