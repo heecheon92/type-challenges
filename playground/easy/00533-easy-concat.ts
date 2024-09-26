@@ -18,7 +18,8 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type Concat<T, U> = any
+type MyArrayLike = (unknown[] | readonly unknown[])
+type Concat<T extends MyArrayLike, U extends MyArrayLike> = [...T, ...U]
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
