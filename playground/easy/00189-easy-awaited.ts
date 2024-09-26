@@ -22,7 +22,8 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type MyAwaited<T> = any
+type MyPromise<T> = Promise<T> | PromiseLike<T>
+type MyAwaited<T> = T extends MyPromise<infer P> ? P extends MyPromise<unknown> ? MyAwaited<P> : P : never;
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
