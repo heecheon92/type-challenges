@@ -29,7 +29,7 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type LookUp<U, T> = any
+type LookUp<U, T> = U extends { type: T } ? U : never
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
