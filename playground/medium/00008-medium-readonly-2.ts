@@ -31,8 +31,10 @@
 */
 
 /* _____________ 여기에 코드 입력 _____________ */
-
-type MyReadonly2<T, K> = any
+type MakeReadonly<T> = {
+  readonly [K in keyof T]: T[K];
+}
+type MyReadonly2<T, K extends keyof T = keyof T> = Omit<T, K> & MakeReadonly<Pick<T, K>>
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Alike, Expect } from '@type-challenges/utils'
