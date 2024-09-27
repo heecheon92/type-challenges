@@ -17,8 +17,10 @@
 */
 
 /* _____________ 여기에 코드 입력 _____________ */
-
-type Trim<S extends string> = any
+type AnyWhiteSpace = ' ' | '\n' | '\t'
+type TrimLeft<T extends string> = T extends `${AnyWhiteSpace}${infer R}` ? TrimLeft<R> : T
+type TrimRight<T extends string> = T extends `${infer R}${AnyWhiteSpace}` ? TrimRight<R> : T
+type Trim<S extends string> = TrimRight<TrimLeft<S>>
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
