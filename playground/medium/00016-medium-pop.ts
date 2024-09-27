@@ -26,7 +26,11 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type Pop<T extends any[]> = any
+type Pop<T extends unknown[]> = T extends [...infer L, unknown] ? L : []
+
+// 다른 Variation
+type Pop1<T extends unknown[]> = T['length'] extends 0 ? [] : T extends [...infer L, unknown] ? L : never
+type Pop2<T> = T extends [] ? [] : T extends [...infer L, unknown] ? L : never
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -35,6 +39,14 @@ type cases = [
   Expect<Equal<Pop<[3, 2, 1]>, [3, 2]>>,
   Expect<Equal<Pop<['a', 'b', 'c', 'd']>, ['a', 'b', 'c']>>,
   Expect<Equal<Pop<[]>, []>>,
+
+  Expect<Equal<Pop1<[3, 2, 1]>, [3, 2]>>,
+  Expect<Equal<Pop1<['a', 'b', 'c', 'd']>, ['a', 'b', 'c']>>,
+  Expect<Equal<Pop1<[]>, []>>,
+
+  Expect<Equal<Pop2<[3, 2, 1]>, [3, 2]>>,
+  Expect<Equal<Pop2<['a', 'b', 'c', 'd']>, ['a', 'b', 'c']>>,
+  Expect<Equal<Pop2<[]>, []>>,
 ]
 
 /* _____________ 다음 단계 _____________ */
