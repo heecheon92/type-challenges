@@ -22,7 +22,8 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type IsNever<T> = any
+type MyEqual<T, U> = (<V>() => V extends T ? 1 : 0) extends (<V>() => V extends U ? 1 : 0) ? true : false
+type IsNever<T> = MyEqual<never, T>
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
