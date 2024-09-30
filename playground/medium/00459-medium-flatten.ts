@@ -18,7 +18,16 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type Flatten = any
+type Flatten<T extends unknown[]> = T extends [] ? [] :
+  T extends [infer F, ...infer R] ?
+    F extends unknown[] ? [...Flatten<F>, ...Flatten<R>] : [F, ...Flatten<R>] : never
+
+/**
+ * NOTE:
+ * T extends unknown[] 과 T extends [unknown]는 다르다는걸 반드시 인지하자.
+ * unknown[] 은 가변적인 길이를 갖는 "array" 타입.
+ * [unknown] 은 정적 길이를 갖는 "tuple" 타입.
+ */
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
