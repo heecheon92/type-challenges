@@ -19,7 +19,9 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type AppendToObject<T, U, V> = any
+type AppendToObject<T, U extends PropertyKey, V> = {
+  [K in (keyof T | U)]: K extends keyof T ? T[K] : V
+}
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
