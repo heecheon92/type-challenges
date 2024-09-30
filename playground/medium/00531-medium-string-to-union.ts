@@ -20,7 +20,10 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type StringToUnion<T extends string> = any
+type CharOf<T extends string> = T extends '' ? never :
+  T extends `${infer S}${infer E}` ? E extends '' ? [S] : [S, ...CharOf<E>] : []
+type TupleOf<T extends unknown[]> = T extends (infer E)[] ? E : never
+type StringToUnion<T extends string> = TupleOf<CharOf<T>>
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
