@@ -12,7 +12,30 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type Diff<O, O1> = any
+type Common<O, O1> = {
+  [key in keyof O extends keyof O1 ? keyof O : keyof O1 extends keyof O ? keyof O1 : keyof O1 extends keyof O ? keyof O1 : keyof O extends keyof O1 ? keyof O : never]:
+  key extends keyof O ? key extends keyof O1 ? O1[key] : never : never;
+}
+type DistributedKey<T, K extends keyof T = keyof T> = K extends K ? K : never
+type Diff<O, O1> = {
+  [key in Exclude<DistributedKey<O> | DistributedKey<O1>, keyof Common<O, O1>>]: key extends keyof O ? O[key] : key extends keyof O1 ? O1[key] : never
+}
+
+type Result<T, U> = {
+  [key in Exclude<DistributedKey<T> | DistributedKey<U>, keyof Common<T, U>>]: key extends keyof T ? T[key] : key extends keyof U ? U[key] :
+    key extends keyof U ? U[key] : key extends keyof T ? T[key] : never;
+}
+type Test = Result<Foo, Bar>
+type _Test = DistributedKey<Foo> | DistributedKey<Bar>
+type __Test = keyof Common<Foo, Bar>
+type __Test2 = keyof Common<Bar, Foo>
+type __Test3 = keyof Common<Foo, Coo>
+type __Test4 = keyof Common<Coo, Foo>
+type $Test = Exclude<DistributedKey<Foo> | DistributedKey<Bar>, keyof Common<Foo, Bar>>
+type ___Test = Result<Foo, Bar>
+type ___Test2 = Result<Bar, Foo>
+type ___Test3 = Result<Foo, Coo>
+type ___Test4 = Result<Coo, Foo>
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
