@@ -22,8 +22,15 @@
 */
 
 /* _____________ 여기에 코드 입력 _____________ */
+type IsFalsy<T> = T extends 0 ? true :
+  T extends '' ? true :
+    T extends false ? true :
+      T extends [] ? true :
+        T extends null ? true :
+          T extends undefined ? true :
+            keyof T extends '' ? true : false
 
-type AnyOf<T extends readonly any[]> = any
+type AnyOf<T extends readonly any[]> = T extends (infer E)[] ? IsFalsy<E>[] extends true[] ? false : true : true
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
