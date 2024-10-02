@@ -22,15 +22,24 @@
 */
 
 /* _____________ 여기에 코드 입력 _____________ */
-type IsFalsy<T> = T extends 0 ? true :
-  T extends '' ? true :
-    T extends false ? true :
-      T extends [] ? true :
-        T extends null ? true :
-          T extends undefined ? true :
-            keyof T extends '' ? true : false
+/**
+ * 내가 만든 타입. 모든 테스트 케이스는 통과하나 불필요하게 복잡한듯?
+ *
+ * type IsFalsy<T> = T extends 0 ? true :
+ *   T extends '' ? true :
+ *     T extends false ? true :
+ *       T extends [] ? true :
+ *         T extends null ? true :
+ *           T extends undefined ? true :
+ *             keyof T extends '' ? true : false
+ *
+ * type AnyOf<T extends readonly any[]> = T extends (infer E)[] ? IsFalsy<E>[] extends true[] ? false : true : true
+ *
+ * 아래 더 간결하게 만든 타입을 참조하자.
+ */
 
-type AnyOf<T extends readonly any[]> = T extends (infer E)[] ? IsFalsy<E>[] extends true[] ? false : true : true
+// better solution
+type AnyOf<T extends any[]> = T[number] extends 0 | '' | false | [] | null | undefined | { [key: string]: never } ? false : true
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
