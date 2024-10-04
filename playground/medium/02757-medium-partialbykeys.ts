@@ -51,8 +51,6 @@ type PartialByKeys<T, K extends keyof T = keyof T> = Normalize<{
   [P in keyof T as P extends K ? P : never]?: T[P] | undefined
 }>
 
-type Test = PartialByKeys<User, 'name'>
-
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
 
