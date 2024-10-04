@@ -25,7 +25,7 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type Mutable<T extends object> = keyof T extends '' ? never : {
+type Mutable<T extends object> = keyof T extends never ? never : {
   -readonly[K in keyof T]: T[K];
 }
 
