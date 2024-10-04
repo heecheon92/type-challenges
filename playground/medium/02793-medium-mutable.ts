@@ -25,7 +25,9 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type Mutable<T> = any
+type Mutable<T extends object> = keyof T extends '' ? never : {
+  -readonly[K in keyof T]: T[K];
+}
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
