@@ -18,7 +18,8 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type TupleToNestedObject<T, U> = any
+type TupleToNestedObject<T extends unknown[], U> = T extends [] ? U :
+  T extends [infer F, ...infer R] ? { [K in F & string]: TupleToNestedObject<R, U> } : never
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
