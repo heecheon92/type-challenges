@@ -26,7 +26,32 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type PartialByKeys<T, K> = any
+/**
+ * Normalize는 Intersection으로 병합된 타입을 단일 타입으로 나타내는 용도. i.e.
+ *
+ *  type A = {
+ *    name: string
+ *  }
+ *
+ *  type B = {
+ *    age: number
+ *  }
+ *
+ *  type C = A & B => { name: string } & { age: number} 형태로 resolve 됨
+ *
+ *  type D = Normalize<A & B> = { name: string; age: number; } 형태로 resolve됨
+ *
+ *  Equal 타입은 굉장히 strict 하므로 구조적으론 C 와 D 가 같지만 명시적으론 다르다고 인식하는것 같다.
+ *
+ */
+type Normalize<T> = { [K in keyof T]: T[K] }
+type PartialByKeys<T, K extends keyof T = keyof T> = Normalize<{
+  [P in keyof T as P extends K ? never : P]: T[P];
+} & {
+  [P in keyof T as P extends K ? P : never]?: T[P] | undefined
+}>
+
+type Test = PartialByKeys<User, 'name'>
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
