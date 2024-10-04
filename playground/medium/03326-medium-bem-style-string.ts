@@ -16,7 +16,15 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type BEM<B extends string, E extends string[], M extends string[]> = any
+type ElementParser<S extends unknown[]> = S extends [] ? never : S extends [infer E extends string, ...infer R extends string[]] ? `__${E}` | ElementParser<[...R]> : never
+type ModifierParser<S extends unknown[]> = S extends [] ? never : S extends [infer M extends string, ...infer R extends string[]] ? `--${M}` | ModifierParser<[...R]> : never
+type BEM<B extends string, E extends string[], M extends string[]> = `${B}${ElementParser<E> extends never ? '' : ElementParser<E>}${ModifierParser<M> extends never ? '' : ModifierParser<M>}`
+
+/**
+ * 더 간결한 답안:
+ *
+ *  type BEM<B extends string, E extends string[],M extends string[]> = `${B}${E extends [] ? '' : `__${E[number]}`}${M extends [] ? '' : `--${M[number]}`}`
+ */
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
