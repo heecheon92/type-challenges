@@ -17,8 +17,10 @@
 */
 
 /* _____________ 여기에 코드 입력 _____________ */
-
-type DropChar<S, C> = any
+type DropChar<S extends string, C extends string> =
+  C extends '' ? never :
+    S extends `${infer S1}${infer S2}` ?
+      S1 extends C ? DropChar<S2, C> : `${S1}${DropChar<S2, C>}` : S
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
