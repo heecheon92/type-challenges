@@ -20,10 +20,18 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type StartsWith<T extends string, U extends string> = T extends '' ? U extends '' ? true : false :
-  T extends `${infer T1}${infer T2}` ? U extends '' ? true :
-    U extends `${infer U1}${infer U2}` ? T1 extends U1 ? StartsWith<T2, U2> :
-      false : false : false
+/**
+ * 내가 시도한 풀이:
+ * type StartsWith<T extends string, U extends string> = T extends '' ? U extends '' ? true : false :
+ *   T extends `${infer T1}${infer T2}` ? U extends '' ? true :
+ *     U extends `${infer U1}${infer U2}` ? T1 extends U1 ? StartsWith<T2, U2> :
+ *       false : false : false
+ */
+
+/**
+ * 불필요한 추론을 줄이고 다음과 같이 더 간결하게 표현이 가능하다.
+ */
+type StartsWith<T extends string, U extends string> = T extends `${U}${string}` ? true : false
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
