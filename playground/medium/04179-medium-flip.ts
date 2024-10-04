@@ -20,7 +20,9 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type Flip<T> = any
+type Flip<T extends Record<string, string | number | boolean>> = {
+  [K in keyof T as `${T[K]}`]: K
+}
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect, NotEqual } from '@type-challenges/utils'
