@@ -23,7 +23,9 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type OmitByType<T, U> = any
+type OmitByType<T, U> = {
+  [K in keyof T as T[K] extends U ? never : K]: T[K];
+}
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
