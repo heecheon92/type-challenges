@@ -27,7 +27,12 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type RequiredByKeys<T, K> = any
+type Normalize<T> = { [K in keyof T]: T[K] }
+type RequiredByKeys<T, K extends keyof T = keyof T> = Normalize<{
+  [P in keyof T as P extends K ? P : never]-?: T[P];
+} & {
+  [P in keyof T as P extends K ? never : P]: T[P];
+}>
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
