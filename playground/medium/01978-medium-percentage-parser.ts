@@ -30,7 +30,9 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type PercentageParser<A extends string> = any
+type PrefixParser<T> = T extends '+' | '-' ? T : never
+type SuffixParser<T> = T extends `${infer P}%` ? [P, '%'] : [T, '']
+type PercentageParser<A extends string> = A extends `${PrefixParser<infer L>}${infer R}` ? [L, ...SuffixParser<R>] : ['', ...SuffixParser<A>]
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
