@@ -11,8 +11,8 @@
 */
 
 /* _____________ 여기에 코드 입력 _____________ */
-
-type Integer<T> = any
+type IsNumberType<T> = number extends T ? true : false
+type Integer<T extends number> = `${T}` extends `${number}.${number}` ? never : IsNumberType<T> extends true ? never : T
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
