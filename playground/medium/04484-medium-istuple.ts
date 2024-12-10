@@ -20,7 +20,8 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type IsTuple<T> = any
+type IsTuple<T> = [T] extends [never] ? false :
+  T extends readonly [infer _, ...infer __] | [] ? true : false
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
