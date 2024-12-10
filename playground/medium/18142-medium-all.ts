@@ -21,8 +21,10 @@
 */
 
 /* _____________ 여기에 코드 입력 _____________ */
+type IsSame<T, U> = (<V>() => V extends T ? true : false) extends (<V>() => V extends U ? true : false) ? true : false
 
-type All = any
+type All<T extends unknown[], U> = T extends [infer E] ? IsSame<E, U> extends true ? true : false :
+  T extends [infer Head, ...infer Tail] ? IsSame<Head, U> extends true ? All<[...Tail], U> : false : false
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
