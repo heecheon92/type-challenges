@@ -14,7 +14,16 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type IsAny<T> = any
+type IsSame<T, U> =
+  (<V>() => (V extends T ? true : false)) extends
+  (<V>() => (V extends U ? true : false)) ? true : false
+type IsAny<T> = IsSame<any, T>
+
+// 다른이의 풀이 1.
+// type IsAny<T> = 0 extends (1 & T) ? true : false;
+
+// 다른이의 풀이 2.
+// type IsAny<T> = [{}, T] extends [T, null] ? true : false;
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
