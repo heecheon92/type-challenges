@@ -12,7 +12,8 @@
 
 /* _____________ 여기에 코드 입력 _____________ */
 
-type Filter<T extends any[], P> = []
+type Filter<T extends any[], P> = T extends [infer H1] ? H1 extends P ? [H1] : [] :
+  T extends [infer H2, ...infer H3] ? H2 extends P ? [H2, ...Filter<[...H3], P>] : Filter<[...H3], P> : []
 
 /* _____________ 테스트 케이스 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
